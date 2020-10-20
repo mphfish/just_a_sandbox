@@ -1,0 +1,22 @@
+<h1>Show Widget</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal @socket, JustASandboxWeb.WidgetLive.FormComponent,
+    id: @widget.id,
+    title: @page_title,
+    action: @live_action,
+    widget: @widget,
+    return_to: Routes.widget_show_path(@socket, :show, @widget) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @widget.name %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.widget_show_path(@socket, :edit, @widget), class: "button" %></span>
+<span><%= live_redirect "Back", to: Routes.widget_index_path(@socket, :index) %></span>

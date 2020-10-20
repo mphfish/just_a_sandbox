@@ -1,0 +1,35 @@
+<h1>Listing Widget</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal @socket, JustASandboxWeb.WidgetLive.FormComponent,
+    id: @widget.id || :new,
+    title: @page_title,
+    action: @live_action,
+    widget: @widget,
+    return_to: Routes.widget_index_path(@socket, :index) %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="widget">
+    <%= for widget <- @widget_collection do %>
+      <tr id="widget-<%= widget.id %>">
+        <td><%= widget.name %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.widget_show_path(@socket, :show, widget) %></span>
+          <span><%= live_patch "Edit", to: Routes.widget_index_path(@socket, :edit, widget) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: widget.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Widget", to: Routes.widget_index_path(@socket, :new) %></span>
